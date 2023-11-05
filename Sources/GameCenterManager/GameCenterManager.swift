@@ -7,6 +7,7 @@ import SwiftUI
 import SwiftletUtilities
 import LogManager
 
+/// A manager that removes most of the boilerplate required to add turn based Game Center gameplay to an app.
 @Observable open class GameCenterManager {
     public typealias GameStateEncoder = ()-> Data?
     public typealias GameStateDecoder = (Data) -> Bool
@@ -16,10 +17,15 @@ import LogManager
     public typealias MatchEvent = (GKTurnBasedMatch.Status) -> Void
     
     // MARK: - Static Properties
+    /// A common shared instance of the library.
     public static var shared:GameCenterManager = GameCenterManager()
     
     // MARK: - Properties
+    /// If `true`, Game Ceneter has been enabled for the app.
     public var isGameCenterEnabled:Bool = false
+    
+    /// If `true`, multiplayer is enabled for the app.
+    public var allowMultiplayer:Bool = false
     
     /// Holds the instance of a current turn based game.
     public var currentMatch:GKTurnBasedMatch? = nil

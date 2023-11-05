@@ -16,9 +16,6 @@ import LogManager
 open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     public typealias LoadGameDataCompletionHandler = (Bool) -> Void
     
-    
-    
-    
     // MARK: - Static Computed Properties
     /// Returns `true` if it is the local player's turn, else it returns `false`.
     public static var isLocalPlayersTurn:Bool {
