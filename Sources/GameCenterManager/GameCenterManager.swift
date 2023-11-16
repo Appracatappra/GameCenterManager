@@ -15,6 +15,12 @@ import LogManager
     public typealias PlayerNameEvent = (String) -> Void
     public typealias GameCenterManagerEvent = () -> Void
     public typealias MatchEvent = (GKTurnBasedMatch.Status) -> Void
+    public typealias TurnEvent = (GKLocalPlayer, [GKTurnBasedParticipant]) -> Void
+    public typealias MatchInviteEvent = (GKPlayer, GKInvite) -> Void
+    public typealias ChallengeEvent = (GKPlayer, GKChallenge) -> Void
+    public typealias ChallengeFinishedEvent = (GKPlayer, GKChallenge, GKPlayer) -> Void
+    public typealias ExchangeEvent = (GKPlayer, GKTurnBasedExchange, GKTurnBasedMatch) -> Void
+    public typealias ExchangeRepliesEvent = (GKPlayer, [GKTurnBasedExchangeReply], GKTurnBasedExchange, GKTurnBasedMatch) -> Void
     
     // MARK: - Static Properties
     /// A common shared instance of the library.
@@ -39,11 +45,35 @@ import LogManager
     /// Holds an instance of an encoder used to restore a game state that was sent from Game Center.
     public var gameStateDecoder:GameStateDecoder? = nil
     
+    /// Handles the player receiving an invite event.
+    public var playerInvite:MatchInviteEvent? = nil
+    
+    /// Handle the player receiving a Game Center Challenge.
+    public var playerReceivedChallenge:ChallengeEvent? = nil
+    
+    /// Handle the player wanting to play the challenge.
+    public var playerWantsToPlayChallenge:ChallengeEvent? = nil
+    
+    /// Handles the player completing a challenge.
+    public var playerChallengeCompleted:ChallengeFinishedEvent? = nil
+    
+    /// Handles a player issued challenge being completed.
+    public var playerIssuedChallengeCompleted:ChallengeFinishedEvent? = nil
+    
+    /// Handles the player receiving an exchange request.
+    public var playerReceivedExchangeRequest:ExchangeEvent? = nil
+    
+    /// Handles an exchange request being canceled.
+    public var playerExchangeCanceled:ExchangeEvent? = nil
+    
+    /// Handles the player receiving exchange replies.
+    public var playerExchangeReplies:ExchangeRepliesEvent? = nil
+    
     /// Handles the current player's turn ending.
-    public var playerTurnEnd:PlayerEvent? = nil
+    public var playerTurnEnd:TurnEvent? = nil
     
     /// Handles the player quitting during their turn.
-    public var playerQuitInTurn:PlayerEvent? = nil
+    public var playerQuitInTurn:TurnEvent? = nil
     
     /// Handles the player quitting out of their turn.
     public var playerQuitOutOfTurn:PlayerEvent? = nil

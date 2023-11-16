@@ -112,13 +112,13 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
             return
         }
         
-        // Update current player's status
-        if let handler = GameCenterManager.shared.playerTurnEnd {
-            handler(GKLocalPlayer.local)
-        }
-        
         // Get players that are next to play
         let players = getNextPlayerList()
+        
+        // Update current player's status
+        if let handler = GameCenterManager.shared.playerTurnEnd {
+            handler(GKLocalPlayer.local, players)
+        }
         
         // Convert game to data
         let data: Data? = encoder()
@@ -149,13 +149,13 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
             return
         }
         
-        // Update current player's status
-        if let handler = GameCenterManager.shared.playerQuitInTurn {
-            handler(GKLocalPlayer.local)
-        }
-        
         // Get players that are next to play
         let players = getNextPlayerList()
+        
+        // Update current player's status
+        if let handler = GameCenterManager.shared.playerQuitInTurn {
+            handler(GKLocalPlayer.local, players)
+        }
         
         // Convert game to data
         let data: Data? = encoder()
@@ -601,6 +601,9 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     ///   - invite: The invite to handle.
     public func player(_ player: GKPlayer, didAccept invite: GKInvite) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player accepted invite.")
+        if let event = GameCenterManager.shared.playerInvite {
+            event(player, invite)
+        }
     }
     
     /// Handle the player receiving a challenge.
@@ -609,6 +612,9 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     ///   - challenge: The challenge received.
     public func player(_ player: GKPlayer, didReceive challenge: GKChallenge) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player received challenge.")
+        if let event = GameCenterManager.shared.playerReceivedChallenge {
+            event(player, challenge)
+        }
     }
     
     /// Handles the player wanting to lay the game.
@@ -617,6 +623,9 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     ///   - challenge: The play request challenge.
     public func player(_ player: GKPlayer, wantsToPlay challenge: GKChallenge) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player wants to play.")
+        if let event = GameCenterManager.shared.playerWantsToPlayChallenge {
+            event(player, challenge)
+        }
     }
     
     /// Handle the match ending.
@@ -707,23 +716,64 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
         })
     }
     
+    /// Handles a challenge being completed.
+    /// - Parameters:
+    ///   - player: The current player.
+    ///   - challenge: The challenge.
+    ///   - friendPlayer: The firend who issued the challenge.
     public func player(_ player: GKPlayer, didComplete challenge: GKChallenge, issuedByFriend friendPlayer: GKPlayer) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player did complete challenge.")
+        if let event = GameCenterManager.shared.playerChallengeCompleted {
+            event(player, challenge, friendPlayer)
+        }
     }
     
+    /// Handles an issued challenge being completed.
+    /// - Parameters:
+    ///   - player: The current player.
+    ///   - challenge: The issued challenge.
+    ///   - friendPlayer: The friend who issued the challenge.
     public func player(_ player: GKPlayer, issuedChallengeWasCompleted challenge: GKChallenge, byFriend friendPlayer: GKPlayer) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player issued challenge was completed.")
+        if let event = GameCenterManager.shared.playerIssuedChallengeCompleted {
+            event(player, challenge, friendPlayer)
+        }
     }
     
+    /// Handles the player getting the request to start an exchange.
+    /// - Parameters:
+    ///   - player: The current player.
+    ///   - exchange: The requested exchange.
+    ///   - match: The match for the exchange.
     public func player(_ player: GKPlayer, receivedExchangeRequest exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player received exchange request.")
+        if let event = GameCenterManager.shared.playerReceivedExchangeRequest {
+            event(player, exchange, match)
+        }
     }
     
+    /// Handles an exchange request being canceled.
+    /// - Parameters:
+    ///   - player: The current player.
+    ///   - exchange: The requested exchange.
+    ///   - match: The match for the exchange.
     public func player(_ player: GKPlayer, receivedExchangeCancellation exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player received exchange cancellation.")
+        if let event = GameCenterManager.shared.playerExchangeCanceled {
+            event(player, exchange, match)
+        }
     }
     
+    /// Handles the player receiving exchange replies.
+    /// - Parameters:
+    ///   - player: The current player
+    ///   - replies: The list of replies.
+    ///   - exchange: The requested exchange.
+    ///   - match: The match for the exchange.
     public func player(_ player: GKPlayer, receivedExchangeReplies replies: [GKTurnBasedExchangeReply], forCompletedExchange exchange: GKTurnBasedExchange, for match: GKTurnBasedMatch) {
         Debug.info(subsystem: "Game Center", category: "MultiplayerGameManager", "Player received exchange replies.")
+        if let event = GameCenterManager.shared.playerExchangeReplies {
+            event(player, replies, exchange, match)
+        }
     }
 }
