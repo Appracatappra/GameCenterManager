@@ -463,22 +463,10 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
         }
         
         // Out of players?
-        if active <= 1 {
+        if active == 1 {
             // Send status update to other players that the game is over
-            if let handler = GameCenterManager.shared.gameEnded {
+            if let handler = GameCenterManager.shared.onlyOnePlayerRemaining {
                 handler()
-            }
-            
-            // Convert game to data
-            let data: Data? = encoder()
-            
-            // Send new game to other players
-            if let data = data {
-                match.endMatchInTurn(withMatch: data, completionHandler: {error in
-                    if let error = error {
-                        Log.error(subsystem: "Game Center", category: "endMatchIfNoMorePlayers", "Saving match data error: \(error)")
-                    }
-                })
             }
         }
     }

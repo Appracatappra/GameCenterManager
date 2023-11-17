@@ -87,6 +87,9 @@ import LogManager
     /// Handles the game ending.
     public var gameEnded:GameCenterManagerEvent? = nil
     
+    /// Handles all other players leaving a match but one.
+    public var onlyOnePlayerRemaining:GameCenterManagerEvent? = nil
+    
     /// Handles Game Center requesting that a new game be started.
     public var startNewGame:GameCenterManagerEvent? = nil
     
