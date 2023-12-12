@@ -1,22 +1,6 @@
-# Game Center Manager
-
-![](https://img.shields.io/badge/license-MIT-green) ![](https://img.shields.io/badge/maintained%3F-Yes-green) ![](https://img.shields.io/badge/swift-5.4-green) ![](https://img.shields.io/badge/iOS-17.0-red) ![](https://img.shields.io/badge/macOS-14.0-red) ![](https://img.shields.io/badge/tvOS-17.0-red) ![](https://img.shields.io/badge/watchOS-10.0-red) ![](https://img.shields.io/badge/dependency-LogManager-orange) ![](https://img.shields.io/badge/dependency-SwiftletUtilities-orange)
+# ``GameCenterManager``
 
 `GameCenterManager` provides a simply way to add Game Center Turn-Based Multiplayer game support to an app.
-
-## Installation
-
-**Swift Package Manager** (Xcode 11 and above)
-
-1. In Xcode, select the **File** > **Add Package Dependency…** menu item.
-2. Paste `https://github.com/Appracatappra/GameCenterManager.git` in the dialog box.
-3. Follow the Xcode's instruction to complete the installation.
-
-> Why not CocoaPods, or Carthage, or etc?
-
-Supporting multiple dependency managers makes maintaining a library exponentially more complicated and time consuming.
-
-Since, the **Swift Package Manager** is integrated with Xcode 11 (and greater), it's the easiest choice to support going further.
 
 ## Overview
 
@@ -281,7 +265,5 @@ The `MultiplayerGameManger` class allows you to send game state changes to Game 
 * `lostGame()` - Inform game center the current player lost the game.
 * `updateAchievementForGame(for playerName:String, achievementID:String, byAmount:Double = 100.0)` - Updates an achievement for the given player by the given amount.
 
-# Documentation
 
-The **GraceLanguage Package** includes full **DocC Documentation** for all of Grace's features.
 
