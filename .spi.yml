@@ -1,0 +1,12 @@
+version: 1
+builder:
+  configs:
+  - platform: ios
+    scheme: GameCenterManager
+  - platform: macos-xcodebuild
+    scheme: GameCenterManager
+  - platform: tvos
+    scheme: GameCenterManager
+  - platform: watchos
+    scheme: GameCenterManager
+  - documentation_targets: [GameCenterManager]
