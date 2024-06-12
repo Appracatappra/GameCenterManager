@@ -24,7 +24,7 @@ import LogManager
     
     // MARK: - Static Properties
     /// A common shared instance of the library.
-    public static var shared:GameCenterManager = GameCenterManager()
+    public nonisolated(unsafe) static let shared:GameCenterManager = GameCenterManager()
     
     // MARK: - Properties
     /// If `true`, Game Ceneter has been enabled for the app.

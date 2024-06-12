@@ -18,7 +18,7 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     
     // MARK: - Static Computed Properties
     /// Returns `true` if it is the local player's turn, else it returns `false`.
-    public static var isLocalPlayersTurn:Bool {
+    public nonisolated(unsafe) static var isLocalPlayersTurn:Bool {
         guard let match = GameCenterManager.shared.currentMatch else {
             return false
         }
