@@ -16,6 +16,9 @@ import LogManager
 open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
     public typealias LoadGameDataCompletionHandler = (Bool) -> Void
     
+    // MARK: - Static Properties
+    public static let ExchangeTimeoutDefault: TimeInterval = 60;
+    
     // MARK: - Static Computed Properties
     /// Returns `true` if it is the local player's turn, else it returns `false`.
     public nonisolated(unsafe) static var isLocalPlayersTurn:Bool {
@@ -125,7 +128,7 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
         
         // Send new game to other players
         if let data = data {
-            match.endTurn(withNextParticipants: players, turnTimeout: GKExchangeTimeoutDefault, match: data, completionHandler: {error in
+            match.endTurn(withNextParticipants: players, turnTimeout: ExchangeTimeoutDefault, match: data, completionHandler: {error in
                 if let error = error {
                     Log.error(subsystem: "Multiplayer Game Manager", category: "endTurn", "Saving match data error: \(error)")
                 }
@@ -162,7 +165,7 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
         
         // Send new game to other players
         if let data = data {
-            match.participantQuitInTurn(with: outcome, nextParticipants: players, turnTimeout: GKExchangeTimeoutDefault, match: data, completionHandler: {error in
+            match.participantQuitInTurn(with: outcome, nextParticipants: players, turnTimeout: ExchangeTimeoutDefault, match: data, completionHandler: {error in
                 if let error = error {
                     Log.error(subsystem: "Multiplayer Game Manager", category: "quitInTurn", "Saving match data error: \(error)")
                 }
@@ -349,7 +352,7 @@ open class MultiplayerGameManager:NSObject, GKLocalPlayerListener {
         
         // Send new game to other players
         if let data = data {
-            match.participantQuitInTurn(with: .lost, nextParticipants: players, turnTimeout: GKExchangeTimeoutDefault, match: data, completionHandler: {error in
+            match.participantQuitInTurn(with: .lost, nextParticipants: players, turnTimeout: ExchangeTimeoutDefault, match: data, completionHandler: {error in
                 if let error = error {
                     print("Saving match data error: \(error)")
                 }
